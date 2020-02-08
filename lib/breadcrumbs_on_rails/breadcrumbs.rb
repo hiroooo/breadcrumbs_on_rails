@@ -79,12 +79,12 @@ module BreadcrumbsOnRails
     class SimpleBuilder < Builder
 
       def render
-        @elements.collect do |element|
-          render_element(element)
+        @elements.collect.with_index(1) do |element, index|
+          render_element(element, index)
         end.join(@options[:separator] || " &raquo; ")
       end
 
-      def render_element(element)
+      def render_element(element, index)
         if element.path == nil
           content = compute_name(element)
         else
@@ -92,8 +92,12 @@ module BreadcrumbsOnRails
             content = @context.content_tag("b", compute_name(element))
           else
             span = @context.content_tag("span", compute_name(element), itemprop: :name)
-            #content = @context.link_to_unless_current(span, compute_path(element), element.options.merge({itemprop: :url}))
-            content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :item}))
+            meta = @content.content_tag("meta", nil, content: index.to_s, itemprop: :position)
+            #content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :item}))
+            content = @context.link_to(compute_path(element), element.options.merge({itemprop: :item})) do
+              concat(span)
+              concat(meta)
+            end
             content = @context.content_tag("span", content, {itemscope: true, itemtype: "http://schema.org/ListItem", itemprop: "itemListElement"})
           end
         end
