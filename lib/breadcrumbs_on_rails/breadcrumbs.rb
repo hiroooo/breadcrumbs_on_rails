@@ -95,8 +95,7 @@ module BreadcrumbsOnRails
             meta = @context.content_tag("meta", nil, content: index.to_s, itemprop: :position)
             #content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :item}))
             content = @context.link_to(compute_path(element), element.options.merge({itemprop: :item})) do
-              span
-              meta
+              span + meta
             end
             content = @context.content_tag("span", content, {itemscope: true, itemtype: "http://schema.org/ListItem", itemprop: "itemListElement"})
           end
