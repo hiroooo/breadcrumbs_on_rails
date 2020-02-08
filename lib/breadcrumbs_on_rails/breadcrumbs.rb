@@ -92,7 +92,7 @@ module BreadcrumbsOnRails
             content = @context.content_tag("b", compute_name(element))
           else
             span = @context.content_tag("span", compute_name(element), itemprop: :name)
-            meta = @content.content_tag("meta", nil, content: index.to_s, itemprop: :position)
+            meta = @context.content_tag("meta", nil, content: index.to_s, itemprop: :position)
             #content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :item}))
             content = @context.link_to(compute_path(element), element.options.merge({itemprop: :item})) do
               concat(span)
