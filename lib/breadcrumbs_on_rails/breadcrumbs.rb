@@ -91,10 +91,10 @@ module BreadcrumbsOnRails
           if element.path == @context.request.fullpath
             content = @context.content_tag("b", compute_name(element))
           else
-            span = @context.content_tag("span", compute_name(element), itemprop: :title)
+            span = @context.content_tag("span", compute_name(element), itemprop: :name)
             #content = @context.link_to_unless_current(span, compute_path(element), element.options.merge({itemprop: :url}))
-            content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :url}))
-            content = @context.content_tag("span", content, {itemscope: true, itemtype: "http://data-vocabulary.org/Breadcrumb"})
+            content = @context.link_to(span, compute_path(element), element.options.merge({itemprop: :item}))
+            content = @context.content_tag("span", content, {itemscope: true, itemtype: "http://schema.org/ListItem", itemprop: "itemListElement"})
           end
         end
         if @options[:tag]
